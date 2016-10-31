@@ -7,56 +7,65 @@ public class MyParser implements Parser{
 
 	List<Token> tokens;
 	
+	
 	@Override
-	public Block parse(List<Token> input) throws SyntaxException {
+	public Block parse(List<Token> input) throws SyntaxException,  Task2Exception {
 		tokens = input;
 		// TODO Auto-generated method stub
 		Block AST = blockParser();
-		//System.out.println(tokens);
+		System.out.println(tokens);
+		tokens.remove(0);
+		if (!tokens.isEmpty()){
+			throw new SyntaxException("");
+		}
 		return AST;
 	}
 	
-	private Block blockParser() throws SyntaxException{
-		if (tokens.get(0) instanceof T_LeftCurlyBracket){
-			tokens.remove(0);
+	private Token grabToken() throws Task2Exception, SyntaxException {
+		try{
+			return tokens.get(0);
+		}catch (IndexOutOfBoundsException e){
+			throw new SyntaxException("Syntax Error, expected grammar completion");
+		}catch (Exception e){
+			throw new Task2Exception("");
+		}
+	}
+	
+	private Block blockParser() throws SyntaxException, Task2Exception{
+		if (grabToken() instanceof T_LeftCurlyBracket){
 			Block b = new Block(eneParser());
-			if(tokens.get(0) instanceof T_RightCurlyBracket){
+			if(grabToken() instanceof T_RightCurlyBracket){
 				return b;
-			}else{
-				throw new SyntaxException("Closing curly bracket missing");
 			}
 		}
 		throw new SyntaxException("Closing curly bracket missing");
 	}
 	
-	private List<Exp> eneParser() throws SyntaxException{
+	private List<Exp> eneParser() throws SyntaxException, Task2Exception {
 		List<Exp> list = new ArrayList<Exp>();
-		list.add(eParser());
-		if (tokens.get(0) instanceof T_Semicolon) {
+		do{
 			tokens.remove(0);
 			list.add(eParser());
-		}
+		}while(grabToken() instanceof T_Semicolon);
 		return list;
 	}
 
-	private Exp eParser() throws SyntaxException {
-		if (tokens.get(0) instanceof T_Integer){
+	private Exp eParser() throws SyntaxException,  Task2Exception {
+		if (grabToken() instanceof T_Integer){
 			IntLiteral i = new IntLiteral(((T_Integer)tokens.get(0)).n);
-			System.out.println(((T_Integer)tokens.get(0)).n);
 			tokens.remove(0);
 			return i;
-		}else if (tokens.get(0) instanceof T_Skip){
+		}else if (grabToken() instanceof T_Skip){
 			Skip s = new Skip();
-			System.out.println(tokens.get(0));
 			tokens.remove(0);
 			return s;
-		}else if (tokens.get(0) instanceof T_LeftCurlyBracket){
+		}else if (grabToken() instanceof T_LeftCurlyBracket){
 			BlockExp b = new BlockExp(blockParser());
-			System.out.println(tokens.get(0));
 			tokens.remove(0);
 			return b;
 		}else{
 			throw new SyntaxException("");
 		}
 	}
+	
 }

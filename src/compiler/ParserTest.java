@@ -17,7 +17,6 @@ public class ParserTest {
 		ArrayList<Token> tl = new ArrayList<>();
 		tl.addAll(Arrays.asList(new T_LeftCurlyBracket(), new T_Integer(0), new T_RightCurlyBracket()));
 		Block b = p.parse(tl);
-		System.out.println("hello   ");
 		assertTrue(b.exps.get(0) instanceof IntLiteral);
 	}
 
@@ -93,7 +92,6 @@ public class ParserTest {
 	@Test(expected = SyntaxException.class)
 	public void testFailure5() throws SyntaxException, Task2Exception, LexicalException, Task1Exception {
 		List<Token> tl = l.lex("{{78;skip}");
-		System.out.println(tl);
 		Block b = p.parse(tl);
 	}
 
