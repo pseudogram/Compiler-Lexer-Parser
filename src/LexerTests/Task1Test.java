@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import Lexer.Lexer;
-import Lexer.Lexer.TokenType;
-import Lexer.Task1;
-import Lexer.Token;
+import compiler.Lexer;
+import compiler.Task1;
+import compiler.Token;
+import compiler.Lexer.TokenType;
 
 public class Task1Test {
 
