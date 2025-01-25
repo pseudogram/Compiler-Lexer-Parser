@@ -1,0 +1,3 @@
+foo
+
+I added this after committing the original.
