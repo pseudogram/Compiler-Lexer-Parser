@@ -1,3 +1,4 @@
-rab
+bar
 
 I'm trying to create a merge conflict with sapling.
+I've added this after the fact too.
